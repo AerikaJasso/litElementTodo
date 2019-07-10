@@ -12,16 +12,14 @@ const VisibilityFilters = {
   SHOW_COMPLETED: 'Completed'
 };
 class TodoView extends LitElement {
-  //define properties
   static get properties() {
-    //return obj that contains properties of elem
     return {
       todos: { type: Array },
       filter: { type: String },
       task: { type: String }
     }
   }
-
+  
   constructor() {
     super();
     this.todos = [];
