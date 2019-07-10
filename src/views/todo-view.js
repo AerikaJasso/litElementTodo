@@ -30,6 +30,28 @@ class TodoView extends LitElement {
   }
   render() {
     return html`
+    <style>
+      todo-view { 
+        display: block;
+        max-width: 800px;
+        margin: 0 auto;
+      }
+      todo-view .input-layout {
+        width: 100%;
+        display: flex;
+      }
+      todo-view .input-layout vaadin-text-field {
+        flex: 1;
+        margin-right: var(--spacing); 
+      }
+      todo-view .todos-list {
+        margin-top: var(--spacing);
+      }
+      todo-view .visibility-filters {
+        margin-top: calc(4 * var(--spacing));
+      }
+    </style>
+
     <div class="input-layout"
       @keyup="${this.shortcutListener}">
 
@@ -43,24 +65,6 @@ class TodoView extends LitElement {
         theme="primary"
         @click="${this.addTodo}">
         Add Todo
-      </vaadin-button>
-
-      <vaadin-radio-group
-        class="visibility-filters"
-        value="${this.filter}"
-        @value-changed="${this.filterChanged}">
-
-        ${Object.values(VisibilityFilters).map(
-          filter => html`
-            <vaadin-radio-button value="${filter}">
-              ${filter}
-            </vaadin-radio-button>`
-        )}      
-      </vaadin-radio-group>
-
-      <vaadin-button
-        @click="${this.clearCompleted}">
-          Clear completed
       </vaadin-button>
 
     </div>
@@ -78,6 +82,24 @@ class TodoView extends LitElement {
         `
       )}
     </div>
+
+    <vaadin-radio-group
+        class="visibility-filters"
+        value="${this.filter}"
+        @value-changed="${this.filterChanged}">
+
+        ${Object.values(VisibilityFilters).map(
+          filter => html`
+            <vaadin-radio-button value="${filter}">
+              ${filter}
+            </vaadin-radio-button>`
+        )}      
+      </vaadin-radio-group>
+
+      <vaadin-button
+        @click="${this.clearCompleted}">
+          Clear completed
+      </vaadin-button>
     `;
   }
 
@@ -124,6 +146,10 @@ class TodoView extends LitElement {
       default:
         return todos;
     }
+  }
+
+  createRenderRoot() {
+    return this;
   }
 }
 
