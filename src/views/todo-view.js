@@ -4,6 +4,7 @@ import '@vaadin/vaadin-button';
 import '@vaadin/vaadin-checkbox';
 import '@vaadin/vaadin-radio-button/vaadin-radio-button';
 import '@vaadin/vaadin-radio-button/vaadin-radio-group';
+import { directive } from "lit-html";
 
 const VisibilityFilters = {
   SHOW_ALL: 'All',
@@ -45,7 +46,28 @@ class TodoView extends LitElement {
       </vaadin-button>
 
     </div>
+
+    <div class ="todos-list">
+      ${this.todos.map(
+        todo => html`
+          <div class="todo-item">
+            <vaadin-checkbox
+              ?checked="${todo.complete}"
+              @change="${ e => this.updateTodoStatus(todo, e.target.checked)}">
+              ${todo.task}
+            </vaadin-checkbox> 
+          </div>
+        `
+      )}
+    </div>
     `;
+    
+  }
+
+  updateTodoStatus(updateTodo, complete) {
+    this.todos = this.todos.map(todo =>
+      updateTodo === todo ? {...updateTodo, complete } : todo
+    );
   }
 
   updateTask(e) {
